@@ -6,6 +6,7 @@ Created on Sun Apr 15 17:47:55 2018
 """
 import numpy as np
 from Snake import snake
+from Food import food
 BOARD_SIZE = 6
 
 class board:
