@@ -15,6 +15,13 @@ class board:
         self.__food = food
         
         self.__grid = np.zeros((BOARD_SIZE,BOARD_SIZE))
+        self.draw()
+    
+    def __str__(self):
+        return str(self.__grid) + "\n"
+    
+    def draw(self):
+        self.__grid = np.zeros((BOARD_SIZE,BOARD_SIZE))
         if self.__snake1:
             for xy in self.__snake1.get_location():
                 self.__grid[xy[1]][xy[0]] = 1
@@ -22,20 +29,20 @@ class board:
             for xy in self.__snake2.get_location():
                 self.__grid[xy[0]][xy[1]] = 2
         if self.__food:
-            self.__grid[self.__food[0]][self.__food[1]]
+            self.__grid[self.__food[0]][self.__food[1]] = 4
     
-    def __str__(self):
-        return str(self.__grid) + "\n"
-    
-s = snake()
-b = board(snake1= s)
-print(b)
-
-s.move()
-b = board(snake1 = s)
-print(b)
-
-s.set_direction(2)
-s.move()
-b = board(snake1 = s)
-print(b)
+    def update(self, snake1_dir = None, snake2_dir = None, new_food = False):
+        if snake1_dir:
+            self.__snake1.set_direction(snake1_dir)
+        if snake2_dir:
+            self.__snake2.set_direction(snake2_dir)
+        if new_food:
+            self.__food = new_food
+            
+        if self.__snake1:
+            self.__snake1.move()
+        if self.__snake2:
+            self.__snake2.move()
+        
+        self.draw()     
+        
