@@ -12,8 +12,8 @@ SOUTH = 2
 WEST = 3
 
 START_SIZE = 3
-START_X = 3
-START_Y = 3
+START_X = 1
+START_Y = 1
 
 class snake:
     
@@ -36,7 +36,14 @@ class snake:
         self.__x_locs = [new_location[i][0] for i in range(len(new_location))]
         self.__y_locs = [new_location[i][1] for i in range(len(new_location))]
         self.__score = len(new_location) - START_SIZE
-        
+    
+    def direction(self):
+        return self.__direction
+    
+    def set_direction(self,new_direction):
+        if new_direction in [NORTH,EAST,SOUTH,WEST]:
+            self.__direction = new_direction
+    
     def score(self):
         return self.__score
     
