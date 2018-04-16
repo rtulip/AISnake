@@ -8,10 +8,11 @@ import np
 
 BOARD_SIZE = 15
 
-class board(snake1= None,snake2 = None,food = None):
-    self.__snake1 = snake1
-    self.__snake2 = snake2
-    self.__food = food
-    
-    self.__grid = np.zeros(BOARD_SIZE,BOARD_SIZE)
-    
+class board:
+    def __init__(snake1= None,snake2 = None,food = None):    
+        self.__snake1 = snake1
+        self.__snake2 = snake2
+        self.__food = food
+        
+        self.__grid = np.zeros(BOARD_SIZE,BOARD_SIZE)
+        
