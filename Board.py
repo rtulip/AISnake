@@ -31,11 +31,11 @@ class board:
         if self.__food:
             self.__grid[self.__food[1]][self.__food[0]] = 4
         if self.__snake1:
-            for xy in self.__snake1.get_location():
-                self.__grid[xy[1]][xy[0]] = 1
+            for pos in self.__snake1:
+                self.__grid[pos[1]][pos[0]] = 1
         if self.__snake2:
-            for xy in self.__snake2.get_location():
-                self.__grid[xy[1]][xy[0]] = 2
+            for pos in self.__snake2:
+                self.__grid[pos[1]][pos[0]] = 2
         
     
     def update(self, snake1_dir = None, snake2_dir = None, new_food = False):
@@ -60,17 +60,3 @@ class board:
             self.__snake2.grow()
         else:
             print("invalid Snake_id")
-         
-        
-s = snake()
-f = food(4,2)
-b = board(s,food = f)
-
-print(b)
-b.update()
-print(b)
-b.update(snake1_dir=2)
-print(b)
-b.grow_snake(1)
-b.update(new_food = food(7,7))
-print(b)

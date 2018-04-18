@@ -75,5 +75,4 @@ class snake:
     def grow(self):
         new_location = self.get_location()
         new_location.append(deepcopy(new_location[-1]))
-        self.set_location(new_location)
-        
+        self.set_location(new_location)    
