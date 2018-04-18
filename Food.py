@@ -20,7 +20,7 @@ class food:
         elif idx == 1:
             return self.__y
         else:
-            raise IndexOutOfRangeException
+            raise IndexError
     
     def get_location(self):
         return [self.__x,self.__y]
