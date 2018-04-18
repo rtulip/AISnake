@@ -29,6 +29,16 @@ class snake:
     def __str__(self):
         return str([[self.__x_locs[i],self.__y_locs[i]] for i in range(len(self.__x_locs))])
     
+    def __getitem__(self,idx):
+        if 0 <= idx < len(self.__x_locs):
+            return [self.__x_locs[idx],self.__y_locs[idx]]
+        elif -len(self.__x_locs) <= idx < 0:
+            return [self.__x_locs[idx],self.__y_locs[idx]]
+        else:
+            raise IndexError
+        
+    def __len__(self):
+        return len(self.__x_locs)
     def get_location(self):
         return [[self.__x_locs[i],self.__y_locs[i]] for i in range(len(self.__x_locs))]
     
