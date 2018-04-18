@@ -52,11 +52,11 @@ class snake:
         for i in range(len(new_location)-1,0,-1):
             new_location[i] = deepcopy(new_location[i-1])
         if self.__direction == NORTH:
-            new_location[0][1] += 1
+            new_location[0][1] -= 1
         elif self.__direction == EAST:
             new_location[0][0] += 1
         elif self.__direction == SOUTH:
-            new_location[0][1] -= 1
+            new_location[0][1] += 1
         elif self.__direction == WEST:
             new_location[0][0] -= 1
             

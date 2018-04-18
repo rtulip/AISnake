@@ -7,7 +7,7 @@ Created on Sun Apr 15 17:47:55 2018
 import numpy as np
 from Snake import snake
 from Food import food
-BOARD_SIZE = 6
+BOARD_SIZE = 10
 
 class board:
     def __init__(self,snake1= None,snake2 = None,food = None):    
@@ -19,7 +19,12 @@ class board:
         self.draw()
     
     def __str__(self):
-        return str(self.__grid) + "\n"
+        display = ""
+        for line in self.__grid:
+            display += str(line) 
+            display += "\n"
+         
+        return display
     
     def draw(self):
         self.__grid = np.zeros((BOARD_SIZE,BOARD_SIZE))
@@ -47,3 +52,12 @@ class board:
         
         self.draw()     
         
+s = snake()
+b = board(s)
+"""
+print(b)
+b.update()
+print(b)
+b.update(snake1_dir=2)
+print(b)
+"""
