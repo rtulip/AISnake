@@ -66,8 +66,3 @@ class board:
 
     def get_entities(self):
         return self.__snake1, self.__snake2, self.__food
-
-s1 = snake()
-f1 = food(4,6)
-b = board(snake1 = s1, food = f1) 
-print(b)
