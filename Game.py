@@ -7,6 +7,7 @@ Created on Sun Apr 18 19:13:00 2018
 from json import loads
 from random import sample
 from threading import Thread
+from time import sleep
 
 from Snake import snake
 from Food import food
@@ -126,8 +127,6 @@ class game:
         elif s2 and f.get_location() in s2:
             self.__board.grow_snake(2)
             self.__food_flag = True
-
-        print("ALL GOOD")
         return True       
 
     def game_loop(self):
@@ -138,6 +137,14 @@ class game:
             dir2 = None
             if s1:
                 dir1 = s1.direction()
+                instructions = [-1,0,1]
+                test = sample(instructions,1)
+                dir1 += test[0]
+                
+                if dir1 < 0:
+                    dir1 = 3
+                if dir1 >3:
+                    dir1 = 0
             if s2:
                 dir2 = s1.direction()
             if self.__food_flag:
@@ -146,5 +153,7 @@ class game:
             else:
                 self.__board.update(dir1,dir2)
             print(self.__board)
+            sleep(0.5)
+            
         
 g = game(1)
