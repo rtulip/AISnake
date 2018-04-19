@@ -5,15 +5,8 @@ Created on Sun Apr 15 17:53:22 2018
 @author: Robbie Tulip
 """
 from copy import deepcopy
-
-NORTH = 0
-EAST = 1
-SOUTH = 2
-WEST = 3
-
-START_SIZE = 3
-START_X = 1
-START_Y = 1
+from json import loads
+SETTINGS  = loads(open("gameSettings.json").read())
 
 class snake:
     
@@ -21,10 +14,10 @@ class snake:
         self.__x_locs = []
         self.__y_locs = []
         self.__score = 0
-        self.__direction = EAST
+        self.__direction = SETTINGS["SNAKE"]["EAST"]
         if player == 0:
-            self.__x_locs = [i for i in range(START_X+START_SIZE-1,START_X-1,-1)]
-            self.__y_locs = [START_Y for i in range(START_SIZE)]
+            self.__x_locs = [i for i in range(SETTINGS["SNAKE"]["START_X"]+SETTINGS["SNAKE"]["START_SIZE"]-1,SETTINGS["SNAKE"]["START_X"]-1,-1)]
+            self.__y_locs = [SETTINGS["SNAKE"]["START_Y"] for i in range(SETTINGS["SNAKE"]["START_SIZE"])]
             
     def __str__(self):
         return str([[self.__x_locs[i],self.__y_locs[i]] for i in range(len(self.__x_locs))])
@@ -45,13 +38,13 @@ class snake:
     def set_location(self,new_location):
         self.__x_locs = [new_location[i][0] for i in range(len(new_location))]
         self.__y_locs = [new_location[i][1] for i in range(len(new_location))]
-        self.__score = len(new_location) - START_SIZE
+        self.__score = len(new_location) - SETTINGS["SNAKE"]["START_SIZE"]
     
     def direction(self):
         return self.__direction
     
     def set_direction(self,new_direction):
-        if new_direction in [NORTH,EAST,SOUTH,WEST]:
+        if new_direction in [SETTINGS["SNAKE"]["NORTH"],SETTINGS["SNAKE"]["EAST"],SETTINGS["SNAKE"]["SOUTH"],SETTINGS["SNAKE"]["WEST"]]:
             self.__direction = new_direction
     
     def score(self):
@@ -61,13 +54,13 @@ class snake:
         new_location = self.get_location()
         for i in range(len(new_location)-1,0,-1):
             new_location[i] = deepcopy(new_location[i-1])
-        if self.__direction == NORTH:
+        if self.__direction == SETTINGS["SNAKE"]["NORTH"]:
             new_location[0][1] -= 1
-        elif self.__direction == EAST:
+        elif self.__direction == SETTINGS["SNAKE"]["EAST"]:
             new_location[0][0] += 1
-        elif self.__direction == SOUTH:
+        elif self.__direction == SETTINGS["SNAKE"]["SOUTH"]:
             new_location[0][1] += 1
-        elif self.__direction == WEST:
+        elif self.__direction == SETTINGS["SNAKE"]["WEST"]:
             new_location[0][0] -= 1
             
         self.set_location(new_location)

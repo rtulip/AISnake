@@ -7,15 +7,15 @@ Created on Sun Apr 15 17:47:55 2018
 import numpy as np
 from Snake import snake
 from Food import food
-BOARD_SIZE = 10
+from json import loads
+SETTINGS  = loads(open("gameSettings.json").read())
 
 class board:
     def __init__(self,snake1= None,snake2 = None,food = None):    
         self.__snake1 = snake1
         self.__snake2 = snake2
         self.__food = food
-        
-        self.__grid = np.zeros((BOARD_SIZE,BOARD_SIZE))
+        self.__grid = np.zeros((SETTINGS["BOARD"]["BOARD_SIZE"],SETTINGS["BOARD"]["BOARD_SIZE"]))
         self.draw()
     
     def __str__(self):
@@ -25,9 +25,12 @@ class board:
             display += "\n"
          
         return display
+
+    def __len__(self):
+        return SETTINGS["BOARD"]["BOARD_SIZE"]
     
     def draw(self):
-        self.__grid = np.zeros((BOARD_SIZE,BOARD_SIZE))
+        self.__grid = np.zeros((SETTINGS["BOARD"]["BOARD_SIZE"],SETTINGS["BOARD"]["BOARD_SIZE"]))
         if self.__food:
             self.__grid[self.__food[1]][self.__food[0]] = 4
         if self.__snake1:
@@ -52,7 +55,7 @@ class board:
             self.__snake2.move()
         
         self.draw()
-        
+            
     def grow_snake(self,snake_id):
         if snake_id == 1:
             self.__snake1.grow()
@@ -60,3 +63,11 @@ class board:
             self.__snake2.grow()
         else:
             print("invalid Snake_id")
+
+    def get_entities(self):
+        return self.__snake1, self.__snake2, self.__food
+
+s1 = snake()
+f1 = food(4,6)
+b = board(snake1 = s1, food = f1) 
+print(b)
