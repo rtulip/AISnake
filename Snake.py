@@ -62,7 +62,6 @@ class snake:
             new_location[0][1] += 1
         elif self.__direction == SETTINGS["SNAKE"]["WEST"]:
             new_location[0][0] -= 1
-            
         self.set_location(new_location)
         
     def grow(self):

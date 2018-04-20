@@ -8,12 +8,14 @@ from json import loads
 from random import sample
 from threading import Thread
 from time import sleep
+import sys
 
 from Snake import snake
 from Food import food
 from Board import board
 
-
+sys.path.append('D:\Py Workspace\AIFramework')
+from Network import network
 SETTINGS  = loads(open("gameSettings.json").read())
 
 class game:
@@ -36,13 +38,17 @@ class game:
 
         if num_players == 1:
             print (s1)
-            self.__board = board(snake1 = s1,food = food(6,1))
+            self.__board = board(snake1 = s1,food = f)
         elif num_players == 2:
             print (s1, s2)
             self.__board = board(snake1 = s1, snake2 = s2, food = f)
         
         print(self.__board)
         self.__food_flag = False
+        self.EXIT = False
+        
+        self.n = network(SETTINGS["BOARD"]["BOARD_SIZE"]**2+3,2,32,3)
+        
         self.__loop = Thread(target = self.game_loop)
         self.__loop.start()
                 
@@ -60,7 +66,9 @@ class game:
         return food(f[0],f[1])
         
     def analyze_board(self):
+               
         s1, s2, f = self.__board.get_entities()
+        print(s1.direction())
         if s1 and s2:
             for loc in s1:
                 if loc in s2:
@@ -130,16 +138,31 @@ class game:
         return True       
 
     def game_loop(self):
+        print("START")
         print(self.__board)
-        while self.analyze_board():
-            s1, s2, f = self.__board.get_entities()
-            dir1 = None
-            dir2 = None
+        s1, s2, f = self.__board.get_entities()
+        dir1 = s1.direction()
+        dir2 = None
+        while self.analyze_board() and not self.EXIT:
+            
+            if self.__food_flag:
+                self.__board.update(dir1,dir2,self.generate_food())
+                self.__food_flag = False
+            else:
+                
+                self.__board.update(dir1,dir2)
+            print(self.__board)
             if s1:
-                dir1 = s1.direction()
                 instructions = [-1,0,1]
-                test = sample(instructions,1)
-                dir1 += test[0]
+                
+                input = self.__board.generate_dnn_data()
+                input.append(self.__board.get_snake(1).direction())
+                input.append(len(self.__board.get_snake(1)))
+                input.append(1)
+                output = self.n.iterate(input)
+                print(output)
+                #test = sample(instructions,1)
+                dir1 += (output.index(max(output))-1)
                 
                 if dir1 < 0:
                     dir1 = 3
@@ -147,13 +170,11 @@ class game:
                     dir1 = 0
             if s2:
                 dir2 = s1.direction()
-            if self.__food_flag:
-                self.__board.update(dir1,dir2,self.generate_food())
-                self.__food_flag = False
-            else:
-                self.__board.update(dir1,dir2)
-            print(self.__board)
+            self.__board.get_snake(1).set_direction(dir1)
+            
             sleep(0.5)
             
         
 g = game(1)
+input("Press A button to end")
+g.EXIT = True

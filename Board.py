@@ -36,15 +36,17 @@ class board:
         if self.__snake1:
             for pos in self.__snake1:
                 self.__grid[pos[1]][pos[0]] = 1
+                if pos == self.__snake1[0]:
+                    self.__grid[pos[1]][pos[0]] = 2
         if self.__snake2:
             for pos in self.__snake2:
                 self.__grid[pos[1]][pos[0]] = 2
         
     
     def update(self, snake1_dir = None, snake2_dir = None, new_food = False):
-        if snake1_dir:
+        if snake1_dir is not None:
             self.__snake1.set_direction(snake1_dir)
-        if snake2_dir:
+        if snake2_dir is not None:
             self.__snake2.set_direction(snake2_dir)
         if new_food:
             self.__food = new_food
@@ -55,7 +57,14 @@ class board:
             self.__snake2.move()
         
         self.draw()
-            
+    
+    def get_snake(self,snake_id):
+        if snake_id == 1:
+            return self.__snake1
+        elif snake_id == 2:
+            return self.__snake2
+        else:
+            print("Invalid Snake id")
     def grow_snake(self,snake_id):
         if snake_id == 1:
             self.__snake1.grow()
@@ -66,3 +75,11 @@ class board:
 
     def get_entities(self):
         return self.__snake1, self.__snake2, self.__food
+
+    def generate_dnn_data(self):
+        data = []
+        for i in range(self.__len__()):
+            for j in range(self.__len__()):
+                data.append(self.__grid[j][i])
+        return data
+    
